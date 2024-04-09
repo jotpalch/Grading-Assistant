@@ -69,11 +69,11 @@ class Grader:
         if not os.path.exists(f'./out/{index_problem}.cpp'):
             return
 
-        if not os.path.exists(f'./similarityCheck/code/{index_problem}'):
-            os.makedirs(f'./similarityCheck/code/{index_problem}')
+        if not os.path.exists(f'./code_backup/{index_problem}'):
+            os.makedirs(f'./code_backup/{index_problem}')
 
         src_dir = f'./out/{index_problem}.cpp'
-        dst_dir = f'./similarityCheck/code/{index_problem}/{student_id}_{index_problem}.cpp'
+        dst_dir = f'./code_backup/{index_problem}/{student_id}_{index_problem}.cpp'
 
         shutil.copy(src_dir,dst_dir)
 
