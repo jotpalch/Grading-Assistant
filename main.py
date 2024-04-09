@@ -181,7 +181,7 @@ def calculate_score(problem, num_problems):
 
         num_pass = sum(1 for _, result in problem[i].items() if result['pass'])
         num_testcase = len(problem[i])
-        score += (num_pass/float(num_testcase)) * (num_problems/100)
+        score += (num_pass/float(num_testcase)) * (100/num_problems)
 
     if problem['late']:
         score *= LATE_PENALTY
