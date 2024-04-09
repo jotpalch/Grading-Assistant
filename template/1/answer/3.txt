@@ -1,0 +1,10 @@
+YA51 -- is not a palindrome.
+AATWWTAA -- is a mirrored palindrome.
+SJLEXMU -- is not a palindrome.
+8AJ2UUWI2WJLJTT -- is not a palindrome.
+YMSVIYHWLVIEV -- is not a palindrome.
+W -- is a mirrored palindrome.
+XXHXO58 -- is not a palindrome.
+X21MJXEMHJIZH -- is not a palindrome.
+YSUI -- is not a palindrome.
+YSUI22IUSY -- is a regular palindrome.
