@@ -15,8 +15,8 @@ pause 'Put the code download from e3 in the folder code and code_late. Press [En
 # Get the current directory
 current_dir=$(pwd)
 
-# Build the Docker image
-docker build -t gradingsystem .
+# pull the docker image
+docker pull ghcr.io/jotpalch/grading-assistant:latest
 
 # Run the Docker container
 docker run \
@@ -25,4 +25,4 @@ docker run \
     -v $current_dir/template:/app/template \
     -v $current_dir/result:/app/result \
     -v $current_dir/code_backup:/app/code_backup \
-    -it --rm gradingsystem
+    -it --rm ghcr.io/jotpalch/grading-assistant:latest
