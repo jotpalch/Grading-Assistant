@@ -10,7 +10,7 @@ mkdir -p code_backup
 mkdir -p code
 mkdir -p code_late
 
-pause 'Put the code download from e3 in the folder code and code_late. Press [Enter] key to continue...'
+read -p $'\n Put the code download from e3 in the folder code and code_late. \n\nPress [Enter] key to continue...\n'
 
 # Get the current directory
 current_dir=$(pwd)
