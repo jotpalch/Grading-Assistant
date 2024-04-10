@@ -8,8 +8,10 @@ The application is designed to be run in a Docker container for consistent gradi
 
 - [Getting Started](#getting-started)
 - [Installation](#installation)
+- [Setting Up Test Cases and Answers](setting-up0test-cases-and-answers)
 - [Usage](#usage)
 - [File Structure](#file-structure)
+- [Understanding the Results](understanding-the-results)
 
 ## Getting Started
 
@@ -24,6 +26,19 @@ Clone this repository to your local machine:
 ```bash
 git clone https://github.com/jotpalch/grading-assistant.git
 ```
+
+### Setting Up Test Cases and Answers
+
+1. Modify the directory `template` in the root of your project folder.
+
+2. For each problem, create a sub-folder in the `template` directory. The sub-folder's name should be the problem's number/index (e.g., `1`, `2`, `3`).
+
+3. Inside each problem's sub-folder, create two more sub-folders: `testcase` and `answer`.
+
+4. Under the `testcase` folder, create input files for all the test cases. The input files should be named in the format `n.txt`, where `n` is the test case number (starting from 1).
+
+5. Similarly, under the `answer` folder, create output files for all the test cases. The output files should match the corresponding input files and be named in the format `n.txt`.
+
 
 ## Usage
 
@@ -48,4 +63,32 @@ chmod +x run_docker.sh
 - `code` and `code_late`: Directories for on-time and late code submissions.
 - `result`: Directory for storing grading results.
 - `code_backup`: Directory for storing backups of graded code.
+
+## Understanding the Results
+
+The results are presented per student, per problem, per test case. For example:
+
+```json
+{
+    "student_id": {
+        "late": false,
+        "1": {
+            "1": {
+                "pass": true,
+                "err": []
+            },
+            "2": {
+                "pass": false,
+                "err": ["Line 1: 'Output' != 'Expected'"]
+            }
+        }
+    }
+}
+```
+
+- `"late"`: Indicates if the submission was late.
+- `"1"`: Problem number.
+- Inside each problem, `"1"` and `"2"` are the test case numbers.
+- `"pass"`: Indicates if the test case was passed.
+- `"err"`: Contains error messages if the test case wasn't passed. If the test case was passed, this will be an empty array.
 
