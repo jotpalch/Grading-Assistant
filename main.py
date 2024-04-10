@@ -47,7 +47,7 @@ class Grader:
 
             try:
                 # Unzip the file
-                extract_cpp_files(os.path.join(os.getcwd(), extract_folder_path, student_folder_path, zip_file_path), "./out")
+                extract_cpp_files(os.path.join(os.getcwd(), extract_folder_path, student_folder_path, zip_file_path), f"./out/{student_id}")
             except:
                 print("Error while unzip the file")
                 continue
@@ -59,36 +59,36 @@ class Grader:
                 
 
             # clear files in out folder
-            for filename in glob.glob('./out/*'):
-                os.remove(filename)
+            if os.path.exists(f"./out/{student_id}"):
+                shutil.rmtree(f"./out/{student_id}")
 
         return result_dict
     
     def cp_files(self, index_problem, student_id):
         """Copy the files to the respective folder."""
-        if not os.path.exists(f'./out/{index_problem}.cpp'):
+        if not os.path.exists(f'./out/{student_id}/{index_problem}.cpp'):
             return
 
         if not os.path.exists(f'./code_backup/{index_problem}'):
             os.makedirs(f'./code_backup/{index_problem}')
 
-        src_dir = f'./out/{index_problem}.cpp'
+        src_dir = f'./out/{student_id}/{index_problem}.cpp'
         dst_dir = f'./code_backup/{index_problem}/{student_id}_{index_problem}.cpp'
 
         shutil.copy(src_dir,dst_dir)
 
     def grade_problem(self, index_problem, result_dict, student_id):
         """Grade a specific problem for a specific student."""
-        if not os.path.exists(f'./out/{index_problem}.cpp'):
-            if os.path.exists(f'./out/{index_problem}.cpp.cpp'):
-                os.rename(f'./out/{index_problem}.cpp.cpp', f'./out/{index_problem}.cpp')
+        if not os.path.exists(f'./out/{student_id}/{index_problem}.cpp'):
+            if os.path.exists(f'./out/{student_id}/{index_problem}.cpp.cpp'):
+                os.rename(f'./out/{student_id}/{index_problem}.cpp.cpp', f'./out/{student_id}/{index_problem}.cpp')
             else:
                 return
 
         result_dict[student_id][index_problem] = {}
 
         # compile the file
-        p = subprocess.Popen(["g++", "-std=c++17", f"./out/{index_problem}.cpp", "-o", f"./out/{index_problem}"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        p = subprocess.Popen(["g++", "-std=c++17", f"./out/{student_id}/{index_problem}.cpp", "-o", f"./out/{student_id}/{index_problem}"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         output, error = p.communicate()
 
         if error:
@@ -112,8 +112,8 @@ class Grader:
 
         # set timeout 
         try:
-            with open(f'./template/{index_problem}/testcase/{testcase+1}.txt', 'r') as input_file, open(f'./out/{index_problem}_output_{testcase+1}.txt', 'w') as output_file:
-                p = subprocess.Popen(f'./out/{index_problem}', stdin=input_file, stdout=output_file)
+            with open(f'./template/{index_problem}/testcase/{testcase+1}.txt', 'r') as input_file, open(f'./out/{student_id}/{index_problem}_output_{testcase+1}.txt', 'w') as output_file:
+                p = subprocess.Popen(f'./out/{student_id}/{index_problem}', stdin=input_file, stdout=output_file)
                 p.communicate(timeout=TIME_LIMIT)
         except Exception as e:
             # kill process if timeout
@@ -124,7 +124,7 @@ class Grader:
             result_dict[student_id][index_problem][testcase+1]["err"] = ["TLE"]
             return
 
-        with open(f'./out/{index_problem}_output_{testcase+1}.txt', 'r') as output_file, open(f'./template/{index_problem}/answer/{testcase+1}.txt', 'r') as answer_file:
+        with open(f'./out/{student_id}/{index_problem}_output_{testcase+1}.txt', 'r') as output_file, open(f'./template/{index_problem}/answer/{testcase+1}.txt', 'r') as answer_file:
             output = output_file.readlines()
             answer = answer_file.readlines()
 
