@@ -125,8 +125,12 @@ class Grader:
             return
 
         with open(f'./out/{student_id}/{index_problem}_output_{testcase+1}.txt', 'r') as output_file, open(f'./template/{index_problem}/answer/{testcase+1}.txt', 'r') as answer_file:
-            output = output_file.readlines()
-            answer = answer_file.readlines()
+            try:
+                output = output_file.readlines()
+                answer = answer_file.readlines()
+            except:
+                result_dict[student_id][index_problem][testcase+1]["pass"] = False
+                result_dict[student_id][index_problem][testcase+1]["err"] = ["invalid output file"]
 
         tmp_err_list = []
         for line, (out, ans) in enumerate(zip(output, answer)):
