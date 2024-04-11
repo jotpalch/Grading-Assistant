@@ -22,8 +22,5 @@ if [ -z "$userid" ]; then
     exit 1
 fi
 
-# pull the docker image
-docker pull ghcr.io/jotpalch/grading-assistant:latest
-
 # Run the MOSS script
-docker run -v $(pwd)/code_backup:/app/code_backup -w /app ghcr.io/jotpalch/grading-assistant:latest python run_moss.py $userid
+docker run -v $(pwd)/code_backup:/app/code_backup ghcr.io/jotpalch/grading-assistant:latest python moss_check.py $userid
