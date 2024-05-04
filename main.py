@@ -7,7 +7,7 @@ import sys
 import os
 import glob
 
-TIME_LIMIT = 12
+TIME_LIMIT = 20
 LATE_PENALTY = 0.8
 SUBMISSION_FOLDER_PATH = './code'
 LATE_SUBMISSION_FOLDER_PATH = './code_late'
