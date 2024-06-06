@@ -110,9 +110,20 @@ class Grader:
         """Grade a specific testcase for a specific problem and student."""
         result_dict[student_id][index_problem][testcase+1] = {"pass": True, "err": []}
 
+        # Adjust the path to use .txt instead of .in or .out for the input and output files
+        input_path = f'./template/{index_problem}/testcase/{testcase+1}.txt'
+        output_path = f'./out/{student_id}/{index_problem}_output_{testcase+1}.txt'
+        answer_path = f'./template/{index_problem}/answer/{testcase+1}.txt'
+
+        # Replace the extension of input and output files if necessary
+        if not os.path.exists(input_path):
+            input_path = input_path.replace('.txt', '.in')
+        if not os.path.exists(answer_path):
+            answer_path = answer_path.replace('.txt', '.out')
+
         # set timeout 
         try:
-            with open(f'./template/{index_problem}/testcase/{testcase+1}.txt', 'r') as input_file, open(f'./out/{student_id}/{index_problem}_output_{testcase+1}.txt', 'w') as output_file:
+            with open(input_path, 'r') as input_file, open(output_path, 'w') as output_file:
                 p = subprocess.Popen(f'./out/{student_id}/{index_problem}', stdin=input_file, stdout=output_file)
                 p.communicate(timeout=TIME_LIMIT)
         except Exception as e:
@@ -124,7 +135,7 @@ class Grader:
             result_dict[student_id][index_problem][testcase+1]["err"] = ["TLE"]
             return
 
-        with open(f'./out/{student_id}/{index_problem}_output_{testcase+1}.txt', 'r') as output_file, open(f'./template/{index_problem}/answer/{testcase+1}.txt', 'r') as answer_file:
+        with open(output_path, 'r') as output_file, open(answer_path, 'r') as answer_file:
             try:
                 output = output_file.readlines()
                 answer = answer_file.readlines()
