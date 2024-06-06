@@ -91,7 +91,7 @@ class Grader:
         p = subprocess.Popen(["g++", "-std=c++17", f"./out/{student_id}/{index_problem}.cpp", "-o", f"./out/{student_id}/{index_problem}"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         output, error = p.communicate()
 
-        if error:
+        if error and "error" in error.decode('utf-8').lower() :
             result_dict[student_id][index_problem] = {"err": "Compile error: " + error.decode('utf-8')}
             return
 
