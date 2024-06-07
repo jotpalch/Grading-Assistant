@@ -135,6 +135,8 @@ class Grader:
             result_dict[student_id][index_problem][testcase+1]["err"] = ["TLE"]
             return
 
+        output = []
+        answer = []
         with open(output_path, 'r') as output_file, open(answer_path, 'r') as answer_file:
             try:
                 output = output_file.readlines()
